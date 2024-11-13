@@ -1,0 +1,14 @@
+.mainclass{
+    background: url(../../../assets/women.avif);
+    width: 64rem;
+    height: 48rem;
+}
+.subclass{
+    justify-content: end;
+    width: 100%;
+    align-items: start;
+    margin-top: 65px;
+    display: flex;
+    text-align: center;
+    height: 100%;
+}

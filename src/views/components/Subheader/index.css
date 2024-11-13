@@ -1,0 +1,34 @@
+
+.subHeader{
+    background: url(../../../assets/background.webp);
+    align-items: center;
+}
+.subHeader>div {
+    color: white;
+    width: 800px;
+font-weight: 600;
+font-family: Arial, Helvetica, sans-serif;
+    /* justify-content: center; */
+    align-items: center;
+
+}
+.subText{
+width: 50%;
+text-align: center;
+}
+.submitBtn{
+    height: 50px;
+    margin-left: 10rem;
+    position: absolute;
+    top: 42%;
+    left: 72%;
+    height: fit-content;
+}
+.secondaryBtn{
+    height: 50px;
+    margin-left: 10rem;
+    position: absolute;
+    top: 42%;
+    left: 62%;
+    height: fit-content;
+}

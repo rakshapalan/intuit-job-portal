@@ -1,0 +1,21 @@
+/* Custom styling for user logo initials */
+.user-logo {
+  width: 28px;
+  height: 28px;
+  margin-right: 11px;
+  border-radius: 50%;
+  background-color: #007bff;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  }
+  
+  /* Additional table hover effect */
+  .table-hover tbody tr:hover {
+    background-color: #f9f9f9;
+  }
+  

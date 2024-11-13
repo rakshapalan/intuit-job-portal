@@ -1,0 +1,40 @@
+{
+    "noOfJobs": 75,
+    "jobDetails": [
+        {
+            "title": "Angular Lead",
+            "jobDescription": "Experience working with .NET Core framework for building robust backend services",
+            "jobType": "early access",
+            "companyId": 7117769,
+            "tagsAndSkills": "Node.Js,Angular,Javascript,.Net,React.Js,.Net Core,Front,SQL",
+            "companyName":"Flipkart",
+            "jobDescriptionFile":null,
+            "applications":35
+
+         
+        },
+        {
+            "title": "Angular Lead",
+            "jobDescription": "Experience working with .NET Core framework for building robust backend services",
+            "jobType": "early access",
+            "companyId": 7117769,
+            "tagsAndSkills": "Node.Js,Angular,Javascript,.Net,React.Js,.Net Core,Front,SQL",
+            "companyName":"Flipkart",
+            "jobDescriptionFile":null,
+            "applications":35
+
+         
+        },
+        {
+            "title": "Angular Lead",
+            "jobDescription": "Experience working with .NET Core framework for building robust backend services",
+            "jobType": "early access",
+            "companyId": 7117769,
+            "tagsAndSkills": "Node.Js,Angular,Javascript,.Net,React.Js,.Net Core,Front,SQL",
+            "companyName":"Flipkart",
+            "jobDescriptionFile":null,
+"applications":35
+         
+        }
+        
+        ]}

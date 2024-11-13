@@ -1,0 +1,107 @@
+/* styles.css */
+.job-card-list {
+    display: flex;
+    flex-direction: column;
+    /* flex-wrap: wrap; */
+    gap: 40px;
+    /* justify-content: center; */
+    /* flex-direction: column; */
+    margin-left: 7rem;
+    margin-top: 3rem;
+
+  }
+  
+  .heading{
+    display: inline;
+    font-size: 20px;
+    font-weight: 700;
+  }
+  .sub-heading{
+    display: inline;
+    font-size: 18px;
+    font-weight: 500;
+  }
+  .view{
+    background: #02BFA0;
+    border: none;
+  }
+  .job-card {
+    /* border: 1px solid #ddd;
+    padding: 16px;
+    width: 300px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 6px 12px rgba(30, 10, 58, .04);
+    background:var(--N100); */
+    background-color: white;
+    /* width: 700px; */
+    /* min-height: 311px; */
+    margin-bottom: 20px;
+    border: none;
+    box-shadow: 0 6px 12px rgba(30, 10, 58, .04);
+    border-radius: 20px;
+    padding: 0px 30px;
+ 
+  }
+  
+  .job-card h3 {
+    margin: 0 0 8px;
+    font-size: 1.25rem;
+  }
+  
+  .job-card p {
+    margin: 4px 0;
+  }
+  
+  .job-card a {
+    color: blue;
+    text-decoration: underline;
+  }
+  .compImg{width: 50px;
+    height: 50px;
+
+  }
+  
+  .job-card {
+    border-radius: 8px;
+  }
+  
+  .job-card .card-body {
+    padding: 1.5rem 0;
+  }
+  
+  .job-card .card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+  }
+  
+  .job-card .card-subtitle {
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+  }
+  .pagination {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .pagination li {
+    margin: 0 5px;
+  }
+  
+  .pagination a {
+    padding: 10px;
+    cursor: pointer;
+    border: 1px solid #ddd;
+    color: #333;
+    text-decoration: none;
+  }
+  
+  .pagination .active a {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+  }
+  

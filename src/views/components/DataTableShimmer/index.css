@@ -1,0 +1,42 @@
+
+/* Shimmer effect animation */
+@keyframes shimmer {
+    0% {
+      background-position: -468px 0;
+    }
+    100% {
+      background-position: 468px 0;
+    }
+  }
+  
+  .shimmer-wrapper {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+  }
+  
+  .shimmer {
+    animation-duration: 1.2s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-name: shimmer;
+    animation-timing-function: linear;
+    background: #f6f7f8;
+    background: linear-gradient(to right, #f6f7f8 8%, #edeef1 18%, #f6f7f8 33%);
+    background-size: 800px 104px;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .shimmer-row {
+    display: flex;
+    padding: 10px 0;
+  }
+  
+  .shimmer-cell {
+    flex: 1;
+    height: 20px;
+    margin: 5px;
+    border-radius: 4px;
+  }
+  
