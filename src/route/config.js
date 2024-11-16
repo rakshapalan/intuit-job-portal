@@ -11,23 +11,15 @@ const routesConfig = [
   },
 
   {
-    path: "/jobList",
+    path: "/:role/jobList",
     component: lazy(() => import("../views/pages/JobCardList")),
   },
   {
-    path: "/userprofile",
-    component: lazy(() => import("../views/pages/FreelancerProfile")),
+    path: "/:role/profile",
+    component: lazy(() => import("../views/pages/RoleBasedForm")),
   },
   {
-    path: "/employeeprofile",
-    component: lazy(() => import("../views/pages/EmployeeForm")),
-  },
-  {
-    path: "/employeeList",
-    component: lazy(() => import("../views/pages/JobCardList")),
-  },
-  {
-    path: "/allApplicants",
+    path: "/employer/allApplicants",
     component: lazy(() => import("../views/pages/AllApplicants")),
   },
 

@@ -6,35 +6,46 @@ const useForm = (initialState, validate) => {
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
 
-  const handleChange = useCallback((event) => {
-    const { name, value } = event.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
-  }, []);
+  const handleChange = (event) => {
+    const { id, value } = event.target;
+    console.log(id, event.target);
+    setFormData((prevData) => ({ ...prevData, [id]: value }));
+  };
   const handleCheckboxChange = useCallback((event) => {
     const { value, checked } = event.target;
     setFormData((prevData) => ({
       ...prevData,
-      [event.target.name]: checked
-        ? [...prevData[event.target.name], value]
-        : prevData[event.target.name].filter((item) => item !== value),
+      [event.target.id]: checked
+        ? [...prevData[event.target.id], value]
+        : prevData[event.target.id].filter((item) => item !== value),
     }));
   }, []);
+
+  const handleSkillChange = (event) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      ["tagsAndSkills"]: event,
+    }));
+    // setSelectedSkills(selectedOptions || []); // Update state with selected options
+  };
   const handleFileChange = useCallback((event) => {
     const file = event.target.files[0];
     if (file && file.size <= MAX_FILE_SIZE) {
       setFormData((prevData) => ({ ...prevData, jobDescriptionFile: file }));
       setErrors((prevErrors) => ({ ...prevErrors, jobDescriptionFile: "" }));
     } else {
+      setFormData((prevData) => ({ ...prevData, jobDescriptionFile: file }));
       setErrors((prevErrors) => ({
         ...prevErrors,
         jobDescriptionFile: "File size should not exceed 16KB",
       }));
     }
   }, []);
-  console.log("errors", errors);
+
   const handleValidation = useCallback(() => {
     const newErrors = validate(formData);
-    setErrors({ jobDescriptionFile: errors?.jobDescriptionFile, ...newErrors });
+    console.log("handleSubmit", formData, newErrors);
+    setErrors({ ...newErrors });
     return Object.keys(newErrors).length === 0;
   }, [formData, validate]);
 
@@ -57,6 +68,7 @@ const useForm = (initialState, validate) => {
     handleChange,
     handleFileChange,
     handleCheckboxChange,
+    handleSkillChange,
     handleSubmit,
   };
 };

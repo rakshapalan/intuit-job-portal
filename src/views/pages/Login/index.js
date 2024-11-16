@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import {
   Container,
   Card,
@@ -8,38 +10,41 @@ import {
   Row,
   Col,
 } from "react-bootstrap";
+import useForm from "../../../hooks/useForm";
+import { validateLoginForm } from "../../../utils/validation";
+import { HeaderContext } from "../../../context/headerContext";
 
 const LoginPage = () => {
-  const [formData, setFormData] = useState({ username: "", password: "" });
-  const [formErrors, setFormErrors] = useState({});
-  const [loading, setLoading] = useState(false);
-
-  // Handle form input changes
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+  const navigate = useNavigate();
+  const initialState = {
+    username: "",
+    password: "",
   };
+  const { isEmployer } = useContext(HeaderContext);
+  const { formData, errors, loading, handleChange, handleSubmit } = useForm(
+    initialState,
+    validateLoginForm
+  );
 
-  // Validate the form before submission
-  const validateForm = () => {
-    const errors = {};
-    if (!formData.username) errors.username = "Username is required";
-    if (!formData.password) errors.password = "Password is required";
-    setFormErrors(errors);
-    return Object.keys(errors).length === 0;
+  const onSubmit = async (formData) => {
+    try {
+      // const payload = { ...formData, tagsAndSkills: formData.skills };
+      // await createUser(payload);
+      toast.success("Login successfull", {
+        position: "bottom-right",
+        autoClose: 1000,
+      });
+      console.log("isEmployer", isEmployer);
+      setTimeout(
+        () => navigate(isEmployer ? "/employer/jobList" : "/user/jobList"),
+        1000
+      );
+    } catch (err) {
+      console.log("Error:", err);
+    }
   };
 
   // Handle form submission
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (validateForm()) {
-      setLoading(true);
-      setTimeout(() => {
-        setLoading(false);
-        console.log("Login successful");
-      }, 1000);
-    }
-  };
 
   return (
     <Container
@@ -56,7 +61,7 @@ const LoginPage = () => {
             }}
           >
             <h3 className="text-center text-primary mb-4">Login</h3>
-            <Form onSubmit={handleSubmit}>
+            <Form onSubmit={handleSubmit(onSubmit)}>
               {/* Username Field */}
               <Form.Group controlId="username">
                 <Form.Label>Username</Form.Label>
@@ -66,11 +71,11 @@ const LoginPage = () => {
                   value={formData.username}
                   onChange={handleChange}
                   placeholder="Enter your username"
-                  isInvalid={!!formErrors.username}
+                  isInvalid={!!errors.username}
                   className="mb-3"
                 />
                 <Form.Control.Feedback type="invalid">
-                  {formErrors.username}
+                  {errors.username}
                 </Form.Control.Feedback>
               </Form.Group>
 
@@ -83,16 +88,16 @@ const LoginPage = () => {
                   value={formData.password}
                   onChange={handleChange}
                   placeholder="Enter your password"
-                  isInvalid={!!formErrors.password}
+                  isInvalid={!!errors.password}
                   className="mb-3"
                 />
                 <Form.Control.Feedback type="invalid">
-                  {formErrors.password}
+                  {errors.password}
                 </Form.Control.Feedback>
               </Form.Group>
 
               {/* Error Message */}
-              {formErrors.username || formErrors.password ? (
+              {errors.username || errors.password ? (
                 <Alert variant="danger" className="mt-3">
                   Please fill in all required fields.
                 </Alert>

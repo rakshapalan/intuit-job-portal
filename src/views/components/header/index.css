@@ -1,11 +1,11 @@
-ul{
+.subDiv{
 
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
-    left: 800px;
+    right:200px;
     margin: 0;
     opacity: 1;
     pointer-events: all;
@@ -18,6 +18,19 @@ ul{
     transition-delay: 0.25s;
     list-style: none;
     
+}
+.mainHeader{
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    right: 0;
+    background-color: #333;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    z-index:  1000;
+    margin-bottom: 20px
 }
 
 ul>li{

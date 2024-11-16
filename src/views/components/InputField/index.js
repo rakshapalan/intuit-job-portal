@@ -4,6 +4,7 @@ import React from "react";
 const InputField = ({
   label,
   name,
+  id,
   value,
   onChange,
   error,
@@ -17,6 +18,7 @@ const InputField = ({
       {type === "textarea" ? (
         <textarea
           name={name}
+          id={id}
           value={value}
           onChange={onChange}
           className="form-control"
@@ -26,6 +28,7 @@ const InputField = ({
         <input
           type="file"
           name={name}
+          id={id}
           accept={accept}
           onChange={onChange}
           className="form-control-file"
@@ -34,6 +37,7 @@ const InputField = ({
         <input
           type={type}
           name={name}
+          id={id}
           value={value}
           onChange={onChange}
           className="form-control"

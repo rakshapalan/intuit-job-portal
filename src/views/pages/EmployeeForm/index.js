@@ -1,22 +1,22 @@
 // JobPostingForm.js
 import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { JobContext } from "../../context/jobContext";
 import { createJob } from "../../../api/apiCompanies";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import Subheader from "../../components/Subheader";
 import InputField from "../../components/InputField";
+import { Form, Button, Container, Alert, Col, Row } from "react-bootstrap";
 import useForm from "../../../hooks/useForm";
 import { validateJobForm } from "../../../utils/validation";
 import { postJob } from "../../../actions/jobAction";
-
+import { HeaderContext } from "../../../context/headerContext";
 const JobPostingForm = () => {
+  const { isEmployer } = useContext(HeaderContext);
   const navigate = useNavigate();
-  // const { dispatch } = useContext(JobContext);
   const dispatch = useDispatch();
-  // const postJob = () => navigate("/employeeList");
-
+  const navigateList = () =>
+    navigate(isEmployer ? "/employer/jobList" : "/user/jobList");
   const initialState = {
     jobDescriptionFile: null,
     title: "",
@@ -25,26 +25,6 @@ const JobPostingForm = () => {
     companyName: "",
     contactInfo: "",
   };
-
-  const onSubmit = (formData) => {
-    dispatch(postJob(formData)); // Dispatch the Redux action
-  };
-
-  // const onSubmit = async (formData) => {
-  //   try {
-  //     await createJob(formData);
-  //     toast.success("Job created successfully", {
-  //       position: "bottom-right",
-  //       autoClose: 1000,
-  //     });
-  //     setTimeout(() => {
-  //       postJob();
-  //     }, 1000);
-  //   } catch (err) {
-  //     console.error("Error creating job:", err);
-  //   }
-  // };
-
   const {
     formData,
     errors,
@@ -54,65 +34,87 @@ const JobPostingForm = () => {
     handleSubmit,
   } = useForm(initialState, validateJobForm);
 
+  const onSubmit = async (formData) => {
+    try {
+      await createJob(formData);
+      toast.success("Job created successfully", {
+        position: "bottom-right",
+        autoClose: 1000,
+      });
+      setTimeout(() => {
+        navigateList();
+      }, 1000);
+    } catch (err) {
+      console.error("Error creating job:", err);
+    }
+  };
+
   const fields = [
     {
       label: "Job Title*",
-      name: "title",
+      id: "title",
       type: "text",
       placeholder: "Describe the job title",
+      value: formData.title,
       error: errors.title,
     },
     {
       label: "Job Description*",
-      name: "jobDescription",
+      id: "jobDescription",
       type: "textarea",
       placeholder: "Describe the job requirements",
+      value: formData.jobDescription,
       error: errors.jobDescription,
     },
     {
       label: "Skills*",
-      name: "tagsAndSkills",
+      id: "tagsAndSkills",
       type: "text",
       placeholder: "Enter relevant tags (comma-separated)",
+      value: formData.tagsAndSkills,
       error: errors.tagsAndSkills,
     },
     {
-      label: "Job Description File (Max 16KB)",
-      name: "jobDescriptionFile",
+      label: "Job Description File (Max 16KB)*",
+      id: "jobDescriptionFile",
       type: "file",
       accept: ".pdf,.doc,.docx",
+      value: formData.jobDescriptionFile,
       error: errors.jobDescriptionFile,
       onChange: handleFileChange,
     },
     {
       label: "Company Name*",
-      name: "companyName",
+      id: "companyName",
       type: "text",
       placeholder: "Enter company name",
+      value: formData.companyName,
       error: errors.companyName,
     },
     {
       label: "Contact Information*",
-      name: "contactInfo",
+      id: "contactInfo",
       type: "number",
       placeholder: "Enter contact info",
+      value: formData.contactInfo,
       error: errors.contactInfo,
     },
   ];
-
+  console.log(formData);
   return (
     <>
-      <Subheader name={"All Jobs"} navigateTab={"/employeeList"} />
-      <form onSubmit={handleSubmit(onSubmit)} className="p-3">
+      <Subheader name={"All Jobs"} navigateTab={"/employer/joblist"} />
+      <Form onSubmit={handleSubmit(onSubmit)} className="p-3">
         <div className="container mt-5">
           <div className="card shadow-lg p-4 mb-5 bg-white rounded">
             <h5 className="text-left text-primary mb-4">Basic Job Details</h5>
-            {fields.slice(0, 4).map((field, index) => (
+            {fields.slice(0, 4)?.map((field, index) => (
               <InputField
-                key={index}
+                key={field?.id}
+                id={field?.id}
                 {...field}
-                value={formData[field.name]}
                 onChange={field.onChange || handleChange}
+                value={formData[field.id]}
               />
             ))}
           </div>
@@ -120,12 +122,13 @@ const JobPostingForm = () => {
         <div className="container mt-5">
           <div className="card shadow-lg p-4 mb-4 bg-white rounded">
             <h5 className="text-left text-primary mb-4">About Your Company</h5>
-            {fields.slice(4).map((field, index) => (
+            {fields?.slice(4)?.map((field, index) => (
               <InputField
                 key={index + 4}
+                id={field?.id}
+                value={formData[field.id]}
+                onChange={field.onChange || handleChange}
                 {...field}
-                value={formData[field.name]}
-                onChange={handleChange}
               />
             ))}
           </div>
@@ -133,7 +136,7 @@ const JobPostingForm = () => {
             {loading ? "Loading..." : "Submit"}
           </button>
         </div>
-      </form>
+      </Form>
     </>
   );
 };

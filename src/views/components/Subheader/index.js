@@ -1,5 +1,4 @@
 import React, { useCallback } from "react";
-import styled from "styled-components";
 import "./index.css";
 import { useNavigate } from "react-router-dom";
 

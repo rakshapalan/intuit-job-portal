@@ -18,7 +18,7 @@ class ErrorBoundary extends Component {
   render() {
     const ErrorPage = () => (
       <div style={{ textAlign: "center", marginTop: "50px" }}>
-        <img src={error} />
+        <img src={error} alt="error" />
       </div>
     );
 

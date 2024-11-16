@@ -1,7 +1,7 @@
 import React from "react";
 import "./index.css"; // Make sure to import the CSS
 
-export const ShimmerTableRow = () => {
+export const ShimmerTableRow = React.memo(() => {
   return (
     <div className="shimmer-row">
       <div className="shimmer shimmer-cell" style={{ width: "20%" }}></div>
@@ -10,4 +10,4 @@ export const ShimmerTableRow = () => {
       <div className="shimmer shimmer-cell" style={{ width: "25%" }}></div>
     </div>
   );
-};
+});

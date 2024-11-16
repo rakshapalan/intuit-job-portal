@@ -1,20 +1,25 @@
 // UserProfileForm.js
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Form, Button, Container, Alert, Col, Row } from "react-bootstrap";
 import Subheader from "../../components/Subheader";
+import AutoSuggest from "../../components/AutoSuggest";
 import { toast } from "react-toastify";
-import { skillOptions } from "../../../constants/base";
+import debounce from "lodash.debounce";
+import { skillOptions, skillList } from "../../../constants/base";
 import { createUser, gitHubValidation } from "../../../api/apiCompanies";
 import InputField from "../../components/FormInputField";
 import useForm from "../../../hooks/useForm";
 import { validateUserProfileForm } from "../../../utils/validation";
-
+import { HeaderContext } from "../../../context/headerContext";
 const UserProfileForm = () => {
   const [repos, setRepos] = useState([]);
-  const [skills, setSkills] = useState([]);
-  const [gitHubUsername, setGitHubUsername] = useState("");
+  const [fetching, setFetching] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const { isEmployer } = useContext(HeaderContext);
+  const [selectedSkills, setSelectedSkills] = useState([]);
+
+  // Handle changes in skill selection
 
   const navigate = useNavigate();
 
@@ -22,19 +27,22 @@ const UserProfileForm = () => {
     name: "",
     jobTitle: "",
     projectDetail: "",
-    skills: [],
+    tagsAndSkills: [],
     gitHubUsername: "",
   };
 
   const onSubmit = async (formData) => {
     try {
       const payload = { ...formData, tagsAndSkills: formData.skills };
-      await createUser(payload);
+      await createUser(formData);
       toast.success("User profile created successfully", {
         position: "bottom-right",
         autoClose: 1000,
       });
-      setTimeout(() => navigate("/jobList"), 1000);
+      setTimeout(
+        () => navigate(isEmployer ? "/employer/jobList" : "/user/jobList"),
+        1000
+      );
     } catch (err) {
       console.log("Error:", err);
     }
@@ -47,28 +55,37 @@ const UserProfileForm = () => {
     setErrors,
     handleChange,
     handleCheckboxChange,
+    handleSkillChange,
     handleSubmit,
   } = useForm(initialState, validateUserProfileForm);
-
+  console.log(formData);
   const fetchGitHubRepos = () => {
-    gitHubValidation(formData.gitHubUsername)
+    gitHubValidation(formData?.gitHubUsername)
       .then((response) => {
-        setRepos(response.data);
+        setFetching(false);
+        setRepos(response?.data);
         setSubmitted(false);
       })
       .catch((error) => {
         setRepos([]);
         setSubmitted(true);
+        setFetching(false);
         setErrors((prevErrors) => ({
           ...prevErrors,
           gitHubUsername: "GitHub user not found or invalid.",
         }));
       });
   };
-
+  // Debounced filter change
+  const debouncedFetchGitHubRepos = debounce(() => {
+    if (formData?.gitHubUsername) {
+      fetchGitHubRepos();
+    }
+  }, 1000);
+  console.log("formData", formData);
   return (
     <>
-      <Subheader name="All Jobs" navigateTab="/jobList" />
+      <Subheader name="All Jobs" navigateTab="/user/jobList" />
       <Container>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <div className="container mt-5">
@@ -100,16 +117,28 @@ const UserProfileForm = () => {
                   error: errors.projectDetail,
                 },
               ].map((field) => (
-                <InputField key={field.id} {...field} onChange={handleChange} />
+                <InputField
+                  key={field?.id}
+                  id={field?.id}
+                  {...field}
+                  onChange={handleChange}
+                  value={formData[field?.name]}
+                />
               ))}
 
               {/* Skills Selection */}
               <Row className="mb-4">
                 <Col>
                   <Form.Group>
-                    <Form.Label>Skills*:</Form.Label>
                     <div className="flex flex-wrap">
-                      {skillOptions.map((skill) => (
+                      <AutoSuggest
+                        skillList={skillList}
+                        title={"Add Skills*"}
+                        selectedSkills={formData?.tagsAndSkills}
+                        handleSkillChange={handleSkillChange}
+                        id="tagsAndSkills"
+                      />
+                      {/* {skillOptions?.map((skill) => (
                         <Form.Check
                           key={skill}
                           type="checkbox"
@@ -117,14 +146,15 @@ const UserProfileForm = () => {
                           className="ps-5"
                           label={skill}
                           onChange={handleCheckboxChange}
-                          checked={formData.skills.includes(skill)}
-                          name="skills"
+                          checked={formData?.tagsAndSkills?.includes(skill)}
+                          name="tagsAndSkills"
+                          id="tagsAndSkills"
                         />
-                      ))}
+                      ))} */}
                     </div>
-                    {errors.skills && (
+                    {errors.tagsAndSkills && (
                       <Alert className="mt-4" variant="danger">
-                        {errors.skills}
+                        {errors.tagsAndSkills}
                       </Alert>
                     )}
                   </Form.Group>
@@ -140,24 +170,28 @@ const UserProfileForm = () => {
                 onChange={handleChange}
                 error={errors.gitHubUsername}
                 id="gitHubUsername"
+                name="gitHubUsername"
               />
               <Button
-                className="mb-4"
+                className="mb-4 w-25"
                 variant="primary"
-                onClick={fetchGitHubRepos}
+                onClick={() => {
+                  setFetching(true);
+                  debouncedFetchGitHubRepos();
+                }}
                 disabled={submitted}
               >
-                Fetch GitHub Projects
+                {fetching ? "Loading..." : "Fetch GitHub Projects"}
               </Button>
 
               {/* GitHub Repositories */}
-              {repos.length > 0 && (
+              {repos?.length > 0 && (
                 <Row className="mb-4">
                   <Col>
-                    <h3>Your GitHub Projects:</h3>
-                    <ul>
+                    <h6>Your GitHub Projects:</h6>
+                    <div className="d-flex flex-wrap">
                       {repos.map((repo) => (
-                        <li key={repo.id}>
+                        <div className="d-flex ml-2" key={repo.id}>
                           <a
                             href={repo.html_url}
                             target="_blank"
@@ -165,15 +199,20 @@ const UserProfileForm = () => {
                           >
                             {repo.name}
                           </a>
-                        </li>
+                        </div>
                       ))}
-                    </ul>
+                    </div>
                   </Col>
                 </Row>
               )}
 
               {/* Submit Button */}
-              <Button type="submit" variant="primary" disabled={loading}>
+              <Button
+                className=""
+                type="submit"
+                variant="primary"
+                disabled={loading}
+              >
                 {loading ? "Loading..." : "Submit"}
               </Button>
             </div>

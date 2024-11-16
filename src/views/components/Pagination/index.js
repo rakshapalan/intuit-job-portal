@@ -108,7 +108,7 @@ export function Pagination({ page, setPage, pages, hasNextPage }) {
         >
           Previous
         </Button>
-        {getPageNumbers().map((pageNumber) => (
+        {getPageNumbers()?.map((pageNumber) => (
           <Button
             key={pageNumber}
             variant={pageNumber === page ? "primary" : "outline-secondary"}

@@ -19,7 +19,8 @@ const FilterPage = memo(({ jobList, setJobList, originalData }) => {
 
   // Filtered jobs based on skill and min salary
   const filteredJobs = useMemo(() => {
-    return jobList?.filter(
+    const dupliOriginalData = [...originalData];
+    return dupliOriginalData?.filter(
       (job) =>
         (filters.skill
           ? job.tagsAndSkills
@@ -32,6 +33,7 @@ const FilterPage = memo(({ jobList, setJobList, originalData }) => {
 
   useEffect(() => {
     const filterData = filteredJobs;
+    console.log("filters", filters);
     if (!filters?.skill && !filters?.minSalary) {
       setJobList(originalData);
     } else {

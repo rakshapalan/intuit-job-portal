@@ -12,6 +12,7 @@ import {
   APPLY_TO_JOB,
   CREATE_USER,
   GET_ALL_JOBS,
+  GITHUB_PATH,
 } from "../constants/base";
 export const getEmployerJobs = () => {
   const URL = `${GET_EMPLOYER_JOB_DETAILS}`;
@@ -46,7 +47,7 @@ export const applyToJob = (payload) => {
   return response;
 };
 export const gitHubValidation = (gitHubUsername) => {
-  const URL = `https://api.github.com/users/${gitHubUsername}/repos`;
+  const URL = `${GITHUB_PATH}/${gitHubUsername}/repos`;
   const response = apiGetHelper(URL);
   return response;
 };
