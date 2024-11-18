@@ -1,5 +1,5 @@
 import { HeaderProvider } from "./context/headerContext";
-import Header from "./views/components/Header";
+import Header from "./views/components/Header/index";
 import { BrowserRouter as Router } from "react-router-dom";
 import RoutesRenderer from "./route/routeRender";
 import ErrorBoundary from "./views/components/ErrorBoundary";
