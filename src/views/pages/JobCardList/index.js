@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { JobCard, EmployeeCard } from "../../components/Jobcard";
 import { toast } from "react-toastify";
 import { ShimmerTableRow } from "../../components/DataTableShimmer/index";
@@ -7,29 +7,31 @@ import data from "../../../data/data.json";
 import Subheader from "../../components/Subheader";
 import debounce from "lodash.debounce";
 import "./index.css";
-import { JobContext } from "../../../context/jobContext";
 import FilterPage from "../FilterPanel/index";
 import notFound from "../../../assets/no-result-found.avif";
 import { Pagination } from "../../components/Pagination";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllJobs } from "../../../actions/jobAction";
-import { HeaderContext } from "../../../context/headerContext";
+import { useHeader } from "../../../context/headerContext";
+import useWindowResize from "../../../hooks/useWindowResize";
+import { useAuth } from "../../../context/authContext";
 function JobCardList() {
-  const { isEmployer } = useContext(HeaderContext);
+  const { isEmployer, getAuth } = useAuth();
   const [loading, setLoading] = useState(false);
   const [jobList, setJobList] = useState([]);
   const [originalData, setOriginalData] = useState([]);
+
   const [limit] = useState(10); // Number of jobs per page
   const [quickAppliedJobs, setQuickAppliedJobs] = useState([]);
   const [page, setPage] = useState(1);
   const pages = 12;
-
+  const filterRef = useRef(null);
   let jsonData = data.data;
   console.log("data", jsonData);
   const dispatch = useDispatch();
-  // const { state } = useContext(JobContext);
   const { isloading, job } = useSelector((state) => state);
   const paginate = true;
+  const { filterWidth } = useWindowResize(filterRef);
   //UI pagination by loading 10k data
 
   // useEffect(() => {
@@ -46,21 +48,31 @@ function JobCardList() {
   }, [dispatch]);
 
   useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
     if (job?.length > 0) {
       setJobList(job); // Update the jobList in the context with the Redux state
       setOriginalData(job);
     }
   }, [job, setJobList]);
 
+  useEffect(() => {}, []);
+
   const quickApply = () => {
     setLoading(true);
     applyToJob({ jobIdList: quickAppliedJobs })
       .then((res) => {
         setQuickAppliedJobs([]);
-        toast.success("Applied to job successfully", {
-          position: "bottom-right",
-          autoClose: 1000,
-        });
+        toast.success(
+          `Applied to ${
+            quickAppliedJobs.length > 0
+              ? `${quickAppliedJobs?.length} jobs`
+              : "job"
+          }  successfully`,
+          {
+            position: "bottom-right",
+            autoClose: 1000,
+          }
+        );
         setLoading(false);
       })
       .catch((err) => {
@@ -73,22 +85,46 @@ function JobCardList() {
     quickApply();
   }, 1000);
   const handleApply = (job) => {
-    setQuickAppliedJobs([...quickAppliedJobs, job?.jobId]);
+    setQuickAppliedJobs((prevJobs) => {
+      if (prevJobs.includes(job?.jobId)) {
+        // Remove the job if it's already selected
+        return prevJobs.filter((id) => id !== job?.jobId);
+      } else {
+        // Add the job if it's not already selected
+        return [...prevJobs, job?.jobId];
+      }
+    });
   };
 
   const viewAllApplicants = () => {
     window.open("/employer/allApplicants");
   };
 
+  useEffect(() => {
+    console.log("filterRef", filterRef);
+  }, []);
+
   return (
     <>
       <Subheader
-        name={isEmployer ? "Post new Job" : "Create Profile"}
+        name={
+          isEmployer
+            ? "Post new Job"
+            : getAuth?.profile
+            ? "View profile"
+            : "Create Profile"
+        }
         secondaryText={!isEmployer ? "Apply to" : null}
         secondaryFunc={debounceQuickApply}
         loading={loading}
         quickAppliedJobs={quickAppliedJobs}
-        navigateTab={isEmployer ? "/employer/profile" : "/user/profile"}
+        navigateTab={
+          isEmployer
+            ? "/employer/profile"
+            : getAuth?.profile
+            ? "/user/view/profile"
+            : "/user/profile"
+        }
       />
 
       {isloading || loading ? (
@@ -103,9 +139,17 @@ function JobCardList() {
                 jobList={jobList}
                 setJobList={setJobList}
                 originalData={originalData}
+                isEmployer={isEmployer}
+                filterRef={filterRef}
               />
 
-              <div className="flex flex-column" style={{ width: "56%" }}>
+              <div
+                className="flex flex-column"
+                style={{
+                  width: "56%",
+                  marginLeft: `${filterWidth + 20}px`,
+                }}
+              >
                 {jobList && jobList?.length > 0 ? (
                   jobList.map((item) =>
                     isEmployer ? (
@@ -137,6 +181,7 @@ function JobCardList() {
                 setPage={setPage}
                 pages={Math.floor(jsonData?.length / pages)}
                 hasNextPage={page < jsonData?.length / pages}
+                style={{ marginLeft: `${filterWidth + 20}px` }}
               />
             )}
             {/* Pagination Controls */}

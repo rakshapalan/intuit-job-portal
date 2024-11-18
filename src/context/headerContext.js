@@ -7,9 +7,14 @@ export const HeaderProvider = ({ children }) => {
   const headerHeight = 60; // or dynamic height
   const pathName = location.pathname;
   const isEmployer = pathName?.includes("employer");
-
+  let getAuth = localStorage.getItem("auth");
+  getAuth = getAuth && JSON.parse(getAuth);
+  const isLoggedIn = getAuth && Object.keys(getAuth)?.length > 0;
+  console.log("isLoggedIn", isLoggedIn);
   return (
-    <HeaderContext.Provider value={{ headerHeight, isEmployer }}>
+    <HeaderContext.Provider
+      value={{ headerHeight, isEmployer, isLoggedIn, getAuth }}
+    >
       {children}
     </HeaderContext.Provider>
   );

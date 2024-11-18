@@ -1,76 +1,116 @@
 // JobCard.js
 
 import React from "react";
+import {
+  FaMapMarkerAlt,
+  FaBriefcase,
+  FaMoneyBillWave,
+  FaTag,
+  FaStar,
+  FaRegEyeSlash,
+} from "react-icons/fa"; // Icons for the job details
+import "./index.css"; // Create a custom CSS file for styling
 
 function JobCard({ job, handleApply, quickAppliedJobs }) {
   return (
     <div className="card job-card mb-3 shadow-sm">
       <div className="card-body">
-        <div>
-          <div className="d-flex justify-content-between">
+        {/* Header Section */}
+        <div className="d-flex justify-content-between align-items-center mb-3">
+          <div>
             <h5 className="card-title">{job.title}</h5>
-
-            <img
-              src={
-                job?.imgSrc || "https://img.naukri.com/logo_images/v3/717.gif"
-              }
-              loading="lazy"
-              className="compImg"
-              alt="Lazy-loaded image"
-            ></img>
+            <div className="d-flex align-items-center">
+              <div className="text-muted me-2">{job.companyName}</div>
+              <div className="d-flex align-items-center">
+                {/* Star Rating */}
+                <FaStar className="icon star-icon" />
+                <span className="rating-text me-2">
+                  {job?.ambitionBoxData?.AggregateRating || "4.5"}
+                </span>
+                {/* User Reviews */}
+                <span className="reviews-text">
+                  (
+                  {`${job?.ambitionBoxData?.ReviewsCount} reviews ` ||
+                    "123 reviews"}
+                  )
+                </span>
+              </div>
+            </div>
           </div>
-          <h6 className="card-subtitle mb-2 ">{job?.companyName}</h6>
-          <p className="card-text">
-            <span className="text-muted">Location: </span>
-            {job?.placeholders?.find((p) => p.type === "location")?.label}
-          </p>
-          <p className="card-text">
-            <span className="text-muted">Experience: </span>
-            {job?.placeholders?.find((p) => p.type === "experience")?.label}
-          </p>
+          <img
+            src={job?.imgSrc || "https://img.naukri.com/logo_images/v3/717.gif"}
+            loading="lazy"
+            className="compImg"
+            alt="Company Logo"
+          />
+        </div>
+
+        {/* Job Details Section */}
+        <div className="d-flex flex-wrap align-items-center mb-2">
+          {/* Location */}
+          <div className="d-flex align-items-center detail-item">
+            <FaMapMarkerAlt className="icon" />
+            <span>
+              {job?.placeholders?.find((p) => p.type === "location")?.label ||
+                "Not Specified"}
+            </span>
+          </div>
+          {/* Experience */}
+          <div className="d-flex align-items-center detail-item">
+            <FaBriefcase className="icon" />
+            <span>
+              {job?.placeholders?.find((p) => p.type === "experience")?.label ||
+                "Not Specified"}
+            </span>
+          </div>
+          {/* Salary */}
+          <div className="d-flex align-items-center detail-item">
+            <FaMoneyBillWave className="icon" />
+            <span>
+              {job?.placeholders?.find((p) => p.type === "salary")?.label ||
+                "Not Specified"}
+            </span>
+          </div>
+          {/* Skills */}
           {job?.tagsAndSkills && (
-            <p className="card-text">
-              <span className="text-muted">Skills: </span>
-              {job?.tagsAndSkills}
-            </p>
+            <div className="d-flex align-items-center detail-item">
+              <FaTag className="icon" />
+              <span>{job.tagsAndSkills}</span>
+            </div>
           )}
-          <p className="card-text">
-            <span className="text-muted">Salary: </span>
-            {job?.placeholders?.find((p) => p.type === "salary")?.label}
-          </p>
-          {job?.minSalary && (
-            <p className="card-text">
-              <span className="text-muted">Minimum Salary(₹): </span>
-              {job?.minSalary}
-            </p>
-          )}
+        </div>
 
-          <p className="card-text">{job.jobDescription}</p>
+        {/* Job Description Section */}
+        <p className="card-text">{job.jobDescription}</p>
 
-          {/* Quick Apply Checkbox */}
-          <div className="form-check mb-3">
-            <input
-              type="checkbox"
-              className="form-check-input"
-              id={`quickApply-${job?.jobId}`}
-              checked={quickAppliedJobs?.includes(job?.jobId)}
-              onChange={() => handleApply(job)}
-            />
-            <label
-              className="form-check-label"
-              htmlFor={`quickApply-${job?.jobId}`}
-            >
-              Quick Apply
-            </label>
-          </div>
-
-          {/* <button
-            className="btn btn-primary"
-            disabled={!isQuickApply}
-            onClick={handleApply}
+        {/* Quick Apply Checkbox */}
+        <div className="form-check d-flex align-items-center mb-3">
+          <input
+            type="checkbox"
+            className="form-check-input me-2"
+            id={`quickApply-${job?.jobId}`}
+            checked={quickAppliedJobs?.includes(job?.jobId)}
+            onChange={() => handleApply(job)}
+          />
+          <label
+            className="form-check-label"
+            htmlFor={`quickApply-${job?.jobId}`}
           >
             Quick Apply
-          </button> */}
+          </label>
+        </div>
+
+        {/* Footer Section */}
+        <div className="d-flex justify-content-between align-items-center">
+          {/* Hide Button */}
+          <div className="d-flex align-items-center hide-tag">
+            <FaRegEyeSlash className="icon me-2" />
+            <span>Hide</span>
+          </div>
+          {/* Days Ago Tag */}
+          <div className="days-ago-tag">
+            <span>4 days ago</span>
+          </div>
         </div>
       </div>
     </div>

@@ -46,3 +46,28 @@
     text-decoration: underline;
   }
   
+
+  /**
+
+  /* UserProfile.css */
+.card {
+  border-radius: 10px;
+  background-color: #f9f9f9;
+}
+
+h5 {
+  color: #007bff;
+}
+
+.badge {
+  margin: 2px;
+}
+
+a {
+  text-decoration: none;
+  color: #007bff;
+}
+
+a:hover {
+  text-decoration: underline;
+}

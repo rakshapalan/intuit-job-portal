@@ -13,6 +13,7 @@ import {
 import useForm from "../../../hooks/useForm";
 import { validateLoginForm } from "../../../utils/validation";
 import { HeaderContext } from "../../../context/headerContext";
+import { useAuth } from "../../../context/authContext";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -20,25 +21,17 @@ const LoginPage = () => {
     username: "",
     password: "",
   };
-  const { isEmployer } = useContext(HeaderContext);
+  const { isEmployer } = useAuth();
   const { formData, errors, loading, handleChange, handleSubmit } = useForm(
     initialState,
     validateLoginForm
   );
 
+  const { login } = useAuth();
+  const role = isEmployer ? "employer" : "user";
   const onSubmit = async (formData) => {
     try {
-      // const payload = { ...formData, tagsAndSkills: formData.skills };
-      // await createUser(payload);
-      toast.success("Login successfull", {
-        position: "bottom-right",
-        autoClose: 1000,
-      });
-      console.log("isEmployer", isEmployer);
-      setTimeout(
-        () => navigate(isEmployer ? "/employer/jobList" : "/user/jobList"),
-        1000
-      );
+      login(formData.username, formData.password, role);
     } catch (err) {
       console.log("Error:", err);
     }

@@ -4,11 +4,13 @@ import "./index.css";
 import Logo from "../../../assets/logo.svg";
 import { useHeader } from "../../../context/headerContext";
 import { Button } from "react-bootstrap";
+import { useAuth } from "../../../context/authContext";
 
 const Header = React.memo(() => {
   const navigate = useNavigate();
-  const { headerHeight } = useHeader();
+  const { headerHeight, isLoggedIn, getAuth } = useAuth();
   const header = ["Jobs", "Services", "Companies"];
+  const { logout } = useAuth();
   return (
     <header
       className="mainHeader"
@@ -17,7 +19,15 @@ const Header = React.memo(() => {
       }}
     >
       <img
-        onClick={() => navigate("/")}
+        onClick={() =>
+          navigate(
+            isLoggedIn
+              ? getAuth?.role === "employer"
+                ? "/employer/jobList"
+                : "/user/jobList"
+              : "/"
+          )
+        }
         src={Logo}
         alt="logo"
         style={{ width: "100px", height: "100px", cursor: "pointer" }}
@@ -31,21 +41,23 @@ const Header = React.memo(() => {
           ))}
       </ul>
       {/* //to show once we have the login token */}
-      <Button
-        variant="primary"
-        type="submit"
-        className="py-1"
-        style={{
-          backgroundColor: "#007bff",
-          borderColor: "#007bff",
-          borderRadius: "25px",
-          position: "absolute",
-          right: "30px",
-        }}
-        onClick={() => navigate("/")}
-      >
-        Log Out
-      </Button>
+      {isLoggedIn && (
+        <Button
+          variant="primary"
+          type="submit"
+          className="py-1"
+          style={{
+            backgroundColor: "#007bff",
+            borderColor: "#007bff",
+            borderRadius: "25px",
+            position: "absolute",
+            right: "30px",
+          }}
+          onClick={logout}
+        >
+          Log Out
+        </Button>
+      )}
     </header>
   );
 });

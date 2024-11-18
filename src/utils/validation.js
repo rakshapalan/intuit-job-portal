@@ -30,6 +30,15 @@ export const validateJobForm = (formData) => {
   return errors;
 };
 
+const validateEmail = (email) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
+
+const validatePhone = (phone) => {
+  const phoneRegex = /^[0-9]{10}$/; // Validates a 10-digit number
+  return phoneRegex.test(phone);
+};
 // utils/validateUserProfileForm.js
 export const validateUserProfileForm = (formData) => {
   const errors = {};
@@ -39,6 +48,12 @@ export const validateUserProfileForm = (formData) => {
     errors.tagsAndSkills = "Please select at least one skill.";
   if (!formData?.gitHubUsername)
     errors.gitHubUsername = "GitHub username is required";
+  if (!formData?.email) errors.email = "Email is required";
+  if (formData?.email && !validateEmail(formData?.email))
+    errors.email = "Enter valid email address";
+  if (!formData?.phone) errors.phone = "Phone number is required";
+  if (formData?.phone && !validatePhone(formData?.phone))
+    errors.phone = "Enter valid phone number";
   return errors;
 };
 
@@ -48,4 +63,20 @@ export const validateLoginForm = (formData) => {
   if (!formData?.username) errors.username = "Username is required";
   if (!formData?.password) errors.password = "Password is required";
   return errors;
+};
+export const updateLocalStorageObject = (key, newKeyValue) => {
+  // Step 1: Retrieve the object from local storage
+  const existingData = localStorage.getItem(key);
+
+  // Step 2: Parse the existing data or create an empty object if it doesn't exist
+  const parsedData = existingData ? JSON.parse(existingData) : {};
+
+  // Step 3: Add the new key-value pair
+  Object.assign(parsedData, newKeyValue);
+
+  // Step 4: Convert back to JSON string
+  const updatedData = JSON.stringify(parsedData);
+
+  // Step 5: Save the updated object back to local storage
+  localStorage.setItem(key, updatedData);
 };

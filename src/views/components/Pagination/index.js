@@ -68,7 +68,7 @@ export default Button;
 // }
 
 //pagination
-export function Pagination({ page, setPage, pages, hasNextPage }) {
+export function Pagination({ page, setPage, pages, hasNextPage, style }) {
   // Calculate the range of page numbers to display
   const getPageNumbers = () => {
     const range = [];
@@ -99,7 +99,7 @@ export function Pagination({ page, setPage, pages, hasNextPage }) {
   }
 
   return (
-    <div className="d-flex justify-content-center align-items-center py-3">
+    <div className="d-flex align-items-center py-3" style={style}>
       <div>
         <Button
           variant="outline-secondary"

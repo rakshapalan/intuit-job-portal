@@ -11,9 +11,10 @@ function AutoSuggest({
   handleSkillChange,
   selectedSkills,
   id,
+  className,
 }) {
   return (
-    <div className="container" style={{ padding: "0px" }}>
+    <div className={`container ${className}`} style={{ padding: "0px" }}>
       <Form.Label>{title}</Form.Label>
       <Select
         options={skillList} // Pass the skill options

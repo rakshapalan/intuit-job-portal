@@ -32,3 +32,8 @@ text-align: center;
     left: 62%;
     height: fit-content;
 }
+.banner{
+    position: sticky;
+    top:24px;
+    z-index: 100;
+}

@@ -3,6 +3,8 @@ import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { createJob } from "../../../api/apiCompanies";
 import { toast } from "react-toastify";
+import { skillList } from "../../../constants/base";
+import AutoSuggest from "../../components/AutoSuggest";
 import { useDispatch, useSelector } from "react-redux";
 import Subheader from "../../components/Subheader";
 import InputField from "../../components/InputField";
@@ -11,8 +13,9 @@ import useForm from "../../../hooks/useForm";
 import { validateJobForm } from "../../../utils/validation";
 import { postJob } from "../../../actions/jobAction";
 import { HeaderContext } from "../../../context/headerContext";
+import { useAuth } from "../../../context/authContext";
 const JobPostingForm = () => {
-  const { isEmployer } = useContext(HeaderContext);
+  const { isEmployer } = useAuth();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const navigateList = () =>
@@ -31,6 +34,7 @@ const JobPostingForm = () => {
     loading,
     handleChange,
     handleFileChange,
+    handleSkillChange,
     handleSubmit,
   } = useForm(initialState, validateJobForm);
 
@@ -109,13 +113,35 @@ const JobPostingForm = () => {
           <div className="card shadow-lg p-4 mb-5 bg-white rounded">
             <h5 className="text-left text-primary mb-4">Basic Job Details</h5>
             {fields.slice(0, 4)?.map((field, index) => (
-              <InputField
-                key={field?.id}
-                id={field?.id}
-                {...field}
-                onChange={field.onChange || handleChange}
-                value={formData[field.id]}
-              />
+              <>
+                {field?.id != "tagsAndSkills" && (
+                  <InputField
+                    key={field?.id}
+                    id={field?.id}
+                    {...field}
+                    onChange={field.onChange || handleChange}
+                    value={formData[field.id]}
+                  />
+                )}
+
+                {field?.id === "tagsAndSkills" && (
+                  <>
+                    <AutoSuggest
+                      skillList={skillList}
+                      title={"Add Skills*"}
+                      selectedSkills={formData?.tagsAndSkills}
+                      handleSkillChange={handleSkillChange}
+                      id={field?.id}
+                      className={"mb-2"}
+                    />
+                    {errors.tagsAndSkills && (
+                      <small style={{ color: "red", marginBottom: "12px" }}>
+                        {errors.tagsAndSkills}
+                      </small>
+                    )}
+                  </>
+                )}
+              </>
             ))}
           </div>
         </div>

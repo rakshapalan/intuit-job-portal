@@ -10,13 +10,18 @@ import { skillOptions, skillList } from "../../../constants/base";
 import { createUser, gitHubValidation } from "../../../api/apiCompanies";
 import InputField from "../../components/FormInputField";
 import useForm from "../../../hooks/useForm";
-import { validateUserProfileForm } from "../../../utils/validation";
+import {
+  validateUserProfileForm,
+  updateLocalStorageObject,
+} from "../../../utils/validation";
 import { HeaderContext } from "../../../context/headerContext";
+import { useAuth } from "../../../context/authContext";
+
 const UserProfileForm = () => {
   const [repos, setRepos] = useState([]);
   const [fetching, setFetching] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const { isEmployer } = useContext(HeaderContext);
+  const { isEmployer } = useAuth();
   const [selectedSkills, setSelectedSkills] = useState([]);
 
   // Handle changes in skill selection
@@ -29,18 +34,21 @@ const UserProfileForm = () => {
     projectDetail: "",
     tagsAndSkills: [],
     gitHubUsername: "",
+    email: "",
+    phone: "",
   };
 
   const onSubmit = async (formData) => {
     try {
       const payload = { ...formData, tagsAndSkills: formData.skills };
       await createUser(formData);
+      updateLocalStorageObject("auth", { profile: true });
       toast.success("User profile created successfully", {
         position: "bottom-right",
         autoClose: 1000,
       });
       setTimeout(
-        () => navigate(isEmployer ? "/employer/jobList" : "/user/jobList"),
+        () => navigate(isEmployer ? "/employer/jobList" : "/user/view/profile"),
         1000
       );
     } catch (err) {
@@ -99,6 +107,22 @@ const UserProfileForm = () => {
                   placeholder: "Enter your name",
                   value: formData.name,
                   error: errors.name,
+                },
+                {
+                  label: "Email*:",
+                  id: "email",
+                  type: "text",
+                  placeholder: "Enter your email",
+                  value: formData.email,
+                  error: errors.email,
+                },
+                {
+                  label: "phone*:",
+                  id: "phone",
+                  type: "number",
+                  placeholder: "Enter your number",
+                  value: formData.phone,
+                  error: errors.phone,
                 },
                 {
                   label: "Current Job Title*:",
@@ -207,6 +231,7 @@ const UserProfileForm = () => {
               )}
 
               {/* Submit Button */}
+
               <Button
                 className=""
                 type="submit"

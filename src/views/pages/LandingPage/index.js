@@ -3,8 +3,10 @@ import { Card, Button, Row, Col, Container } from "react-bootstrap";
 import { FaUserTie, FaUser } from "react-icons/fa"; // For icons
 import { useNavigate } from "react-router-dom";
 import "./index.css";
-
+import { useHeader } from "../../../context/headerContext";
+import { useAuth } from "../../../context/authContext";
 const HireOrApply = () => {
+  const { isLoggedIn } = useAuth();
   const navigate = useNavigate();
   const handleHireClick = (link) => {
     navigate(link);
@@ -34,7 +36,11 @@ const HireOrApply = () => {
                 backgroundColor: "#e9f7fc",
                 cursor: "pointer",
               }}
-              onClick={() => handleHireClick("/employer/login")}
+              onClick={() =>
+                handleHireClick(
+                  isLoggedIn ? "/employer/jobList" : "/employer/login"
+                )
+              }
             >
               <Card.Body>
                 <FaUserTie size={50} color="#007bff" />
@@ -56,7 +62,9 @@ const HireOrApply = () => {
                 backgroundColor: "#d4edda",
                 cursor: "pointer",
               }}
-              onClick={() => handleHireClick("/user/login")}
+              onClick={() =>
+                handleHireClick(isLoggedIn ? "/user/jobList" : "/user/login")
+              }
             >
               <Card.Body>
                 <FaUser size={50} color="#28a745" />

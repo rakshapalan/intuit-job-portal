@@ -1,3 +1,4 @@
+import image from "../assets/user.jpeg";
 export const CREATE_JOB =
   "https://my.api.mockaroo.com/createJob.json?key=cda21e80&__method=POST";
 
@@ -17,6 +18,18 @@ export const CREATE_USER =
   "https://my.api.mockaroo.com/createUser.json?key=cda21e80&__method=POST";
 export const GITHUB_PATH = "https://api.github.com/users";
 
+export const EmployeeTxt = {
+  mainTxt: "Search jobs",
+  subTxt:
+    "Want to level up your career? View the best jobs and apply to top companies in one click, only on Intuit! 🚀",
+};
+
+export const EmployerTxt = {
+  mainTxt: "Find Your Next Star Employee",
+  subTxt:
+    "Looking for top talent to join your team? Intuit connects you with skilled professionals who are ready to make an impact 🚀",
+};
+
 export const skillOptions = [
   "JavaScript",
   "Python",
@@ -28,6 +41,28 @@ export const skillOptions = [
   "SPA",
   "CSS",
   "HTML",
+];
+
+export const ROLES = {
+  EMPLOYER: "employer",
+  EMPLOYEE: "user",
+};
+
+// Mock users with roles
+export const users = [
+  { username: "employer1", password: "employer123", role: ROLES.EMPLOYER },
+  {
+    username: "raksharajeev",
+    password: "employee123",
+    role: ROLES.EMPLOYEE,
+    profile: false,
+  },
+  {
+    username: "rakshapalan",
+    password: "employee123",
+    role: ROLES.EMPLOYEE,
+    profile: true,
+  },
 ];
 
 export const sampleUsers = [
@@ -139,3 +174,52 @@ export const skillList = [
   { value: "Tableau", label: "Tableau" },
   { value: "Power BI", label: "Power BI" },
 ];
+
+export const user = {
+  name: "Raksha R",
+  profilePicture: image, // URL for profile picture, empty if not available
+  phone: "123-456-7890",
+  email: "raksha.r@example.com",
+  jobTitle: "Software Engineer",
+  companyName: "Flipkart",
+  noticePeriod: "1 Month",
+  salary: "$100/year",
+  location: "Bangalore",
+  resumeHeadline:
+    "Experienced Software Engineer with expertise in React and Node.js.",
+  projects: [
+    {
+      title: "E-commerce Platform",
+      company: "TechCorp",
+      description:
+        "Developed a scalable e-commerce platform using React and Node.js.",
+    },
+    {
+      title: "Inventory Management System",
+      company: "LogiTech",
+      description:
+        "Designed and implemented a system to manage warehouse inventory.",
+    },
+  ],
+  skills: ["React", "Node.js", "JavaScript", "CSS", "Bootstrap"],
+  education: [
+    {
+      degree: "Bachelor of Science in Computer Science",
+      institution: "Tech University",
+      year: 2018,
+    },
+    {
+      degree: "High School Diploma",
+      institution: "Tech High School",
+      year: 2014,
+    },
+  ],
+
+  dateOfBirth: "January 1, 1990",
+  address: "123 Main Street, Bellandur, Bangalore",
+  accomplishments: [
+    "Implemented a high-performance e-commerce platform.",
+    "Increased website speed by 30%.",
+    "Awarded 'Employee of the Year' in 2020.",
+  ],
+};
