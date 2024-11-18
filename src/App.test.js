@@ -16,9 +16,9 @@ import App from "./App";
 jest.mock("./views/components/ErrorBoundary", () => ({ children }) => (
   <div>{children}</div>
 ));
-// jest.mock("./views/components/Header", () => () => (
-//   <div data-testid="fixed-header">FixedHeader</div>
-// ));
+jest.mock("./views/components/Header", () => () => (
+  <div data-testid="fixed-header">FixedHeader</div>
+));
 jest.mock("./route/routeRender", () => () => (
   <div data-testid="routes-renderer">RoutesRenderer</div>
 ));

@@ -1,5 +1,5 @@
 import { HeaderProvider } from "./context/headerContext";
-import FixedHeader from "./views/components/Header";
+import Header from "./views/components/Header";
 import { BrowserRouter as Router } from "react-router-dom";
 import RoutesRenderer from "./route/routeRender";
 import ErrorBoundary from "./views/components/ErrorBoundary";
@@ -18,7 +18,7 @@ function App() {
           <Router>
             <AuthProvider>
               {/* <HeaderProvider> */}
-              <FixedHeader /> <RoutesRenderer />
+              <Header /> <RoutesRenderer />
               {/* </HeaderProvider> */}
             </AuthProvider>
           </Router>{" "}
