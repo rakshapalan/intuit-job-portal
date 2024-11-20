@@ -4,15 +4,18 @@ export const CREATE_JOB =
 
 export const GET_FREELANCE_JOB_DETAILS =
   "https://my.api.mockaroo.com//getFreelanceJobs.json?key=cda21e80";
+// "https://my.api.mockaroo.com/getFreelanceJobs.json?key=30c75e00";
 
 export const GET_ALL_JOBS =
   "https://my.api.mockaroo.com/getAllJob.json?key=cda21e80&ffset=100&limit=20";
 
 export const GET_EMPLOYER_JOB_DETAILS =
   "https://my.api.mockaroo.com/getEmployerJobs.json?key=cda21e80";
+// "https://my.api.mockaroo.com/getEmployerJobs.json?key=30c75e00";
 
 export const APPLY_TO_JOB =
-  "https://my.api.mockaroo.com/applyToJob.json?key=cda21e80&__method=POST";
+  // "https://my.api.mockaroo.com/applyToJob.json?key=cda21e80&__method=POST";
+  "https://my.api.mockaroo.com/applyToJob.json?key=30c75e00&__method=POST";
 
 export const CREATE_USER =
   "https://my.api.mockaroo.com/createUser.json?key=cda21e80&__method=POST";
@@ -33,7 +36,7 @@ export const EmployerTxt = {
 export const skillOptions = [
   "JavaScript",
   "Python",
-  "Java",
+  "Angular",
   "React",
   "Node.js",
   "SQL",
@@ -178,30 +181,30 @@ export const skillList = [
 export const user = {
   name: "Raksha R",
   profilePicture: image, // URL for profile picture, empty if not available
-  phone: "123-456-7890",
-  email: "raksha.r@example.com",
+  phone: "9901953218",
+  email: "rakshapallan@gmail.com",
   jobTitle: "Software Engineer",
   companyName: "Flipkart",
-  noticePeriod: "1 Month",
-  salary: "$100/year",
+  noticePeriod: "2 Month",
+  salary: "0/year",
   location: "Bangalore",
   resumeHeadline:
     "Experienced Software Engineer with expertise in React and Node.js.",
   projects: [
     {
       title: "E-commerce Platform",
-      company: "TechCorp",
+      company: "Flipkart",
       description:
-        "Developed a scalable e-commerce platform using React and Node.js.",
+        "Developed a scalable e-commerce platform using React and Javacript.",
     },
     {
       title: "Inventory Management System",
-      company: "LogiTech",
+      company: "Piktorlabs",
       description:
         "Designed and implemented a system to manage warehouse inventory.",
     },
   ],
-  skills: ["React", "Node.js", "JavaScript", "CSS", "Bootstrap"],
+  skills: ["React", "JavaScript", "HTML", "CSS"],
   education: [
     {
       degree: "Bachelor of Science in Computer Science",
@@ -215,11 +218,15 @@ export const user = {
     },
   ],
 
-  dateOfBirth: "January 1, 1990",
-  address: "123 Main Street, Bellandur, Bangalore",
+  dateOfBirth: "May 8, 1995",
+  address: "kadubeesnahalli, Bellandur, Bangalore",
   accomplishments: [
     "Implemented a high-performance e-commerce platform.",
     "Increased website speed by 30%.",
     "Awarded 'Employee of the Year' in 2020.",
   ],
 };
+
+export const headerHeight = 60;
+
+export const header = ["Activity", "Services", "Companies"];

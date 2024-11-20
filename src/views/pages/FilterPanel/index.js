@@ -1,7 +1,7 @@
 import React, { useEffect, useState, memo, useMemo, useRef } from "react";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
-import { Container, Row, Col, Card, Form, Button } from "react-bootstrap";
+import { Row, Col, Card, Form, Button } from "react-bootstrap";
 import { skillOptions } from "../../../constants/base";
 import debounce from "lodash.debounce";
 
@@ -23,7 +23,6 @@ const FilterPage = memo(
     // Filtered jobs based on skill and min salary
     const filteredJobs = useMemo(() => {
       const dupliOriginalData = [...originalData];
-      console.log("dupliOriginalData", filters, dupliOriginalData);
       return dupliOriginalData?.filter(
         (job) =>
           (filters.skill
@@ -42,7 +41,6 @@ const FilterPage = memo(
 
     useEffect(() => {
       const filterData = filteredJobs;
-      console.log("filters", filters);
       if (!filters?.skill && !filters?.minSalary && !filters?.companyName) {
         setJobList(originalData);
       } else {
@@ -109,9 +107,7 @@ const FilterPage = memo(
                 variant="secondary"
                 className="mt-2 w-100"
                 onClick={() => {
-                  debouncedHandleFilterChange("skill", "");
-                  debouncedHandleFilterChange("minSalary", "");
-                  setFilters({ skill: "", minSalary: "" });
+                  setFilters({ skill: "", minSalary: "", companyName: "" });
                 }}
               >
                 Clear Filters

@@ -5,7 +5,6 @@ export const initialState = {
 };
 
 export const jobReducer = (state = initialState, action) => {
-  console.log("action", action.payload);
   switch (action.type) {
     case "POST_JOB_REQUEST":
       return { ...state, isloading: true, error: null };
@@ -28,6 +27,16 @@ export const jobReducer = (state = initialState, action) => {
     case "FETCH_JOBS_SUCCESS":
       return { ...state, isloading: false, job: action?.payload?.jobDetails };
     case "FETCH_JOBS_FAILURE":
+      return { ...state, isloading: false, error: action.payload };
+    case "APPLY_JOBS_REQUEST":
+      return { ...state, isloading: true, error: null };
+    case "APPLY_JOBS_SUCCESS":
+      return {
+        ...state,
+        isloading: false,
+        status: "SUCCESS",
+      };
+    case "APPLY_JOBS_FAILURE":
       return { ...state, isloading: false, error: action.payload };
     default:
       return state;

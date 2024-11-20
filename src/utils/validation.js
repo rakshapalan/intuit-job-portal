@@ -16,14 +16,6 @@ export const validateJobForm = (formData) => {
     formData?.jobDescriptionFile &&
     formData?.jobDescriptionFile.size > 16 * 1024
   ) {
-    console.log(
-      "check",
-      formData?.jobDescriptionFile,
-      formData,
-      formData?.jobDescriptionFile.size,
-      formData?.jobDescriptionFile &&
-        formData?.jobDescriptionFile.size <= 16 * 1024
-    );
     errors.jobDescriptionFile = "File size should not exceed 16KB";
   }
 
@@ -46,8 +38,8 @@ export const validateUserProfileForm = (formData) => {
   if (!formData?.jobTitle) errors.jobTitle = "Job Title is required";
   if (formData?.tagsAndSkills?.length === 0)
     errors.tagsAndSkills = "Please select at least one skill.";
-  if (!formData?.gitHubUsername)
-    errors.gitHubUsername = "GitHub username is required";
+  // if (!formData?.gitHubUsername)
+  //   errors.gitHubUsername = "GitHub username is required";
   if (!formData?.email) errors.email = "Email is required";
   if (formData?.email && !validateEmail(formData?.email))
     errors.email = "Enter valid email address";
@@ -65,18 +57,10 @@ export const validateLoginForm = (formData) => {
   return errors;
 };
 export const updateLocalStorageObject = (key, newKeyValue) => {
-  // Step 1: Retrieve the object from local storage
   const existingData = localStorage.getItem(key);
-
-  // Step 2: Parse the existing data or create an empty object if it doesn't exist
   const parsedData = existingData ? JSON.parse(existingData) : {};
-
-  // Step 3: Add the new key-value pair
   Object.assign(parsedData, newKeyValue);
-
-  // Step 4: Convert back to JSON string
   const updatedData = JSON.stringify(parsedData);
 
-  // Step 5: Save the updated object back to local storage
   localStorage.setItem(key, updatedData);
 };

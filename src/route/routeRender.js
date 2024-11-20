@@ -1,15 +1,15 @@
 // src/components/RoutesRenderer.js
-import React, { Suspense } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import routesConfig from "./config";
 import NotFound from "../views/components/NotFound";
-
+import { useAuth } from "../context/authContext";
 const RoutesRenderer = () => {
-  const location = useLocation();
   let auth = localStorage.getItem("auth");
   auth = auth && JSON.parse(auth);
+  const location = useLocation();
   const urlRole = location.pathname;
-  console.log("auth", auth);
+
   return (
     <Suspense>
       <Routes>

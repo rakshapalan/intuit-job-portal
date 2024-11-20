@@ -3,20 +3,12 @@ import { Card, Button, Row, Col, Container } from "react-bootstrap";
 import { FaUserTie, FaUser } from "react-icons/fa"; // For icons
 import { useNavigate } from "react-router-dom";
 import "./index.css";
-import { useHeader } from "../../../context/headerContext";
 import { useAuth } from "../../../context/authContext";
 const HireOrApply = () => {
   const { isLoggedIn } = useAuth();
   const navigate = useNavigate();
   const handleHireClick = (link) => {
     navigate(link);
-    // Navigate to the "Post Job" page
-    console.log("Redirect to post a job page");
-  };
-
-  const handleApplyClick = () => {
-    // Navigate to the "Job Listings" or "Apply" page
-    console.log("Redirect to apply for jobs page");
   };
 
   return (
@@ -32,7 +24,6 @@ const HireOrApply = () => {
             <Card
               className="shadow-lg border-primary rounded"
               style={{
-                height: "260px",
                 backgroundColor: "#e9f7fc",
                 cursor: "pointer",
               }}
@@ -58,7 +49,6 @@ const HireOrApply = () => {
             <Card
               className="shadow-lg border-success rounded"
               style={{
-                height: "260px",
                 backgroundColor: "#d4edda",
                 cursor: "pointer",
               }}
@@ -70,8 +60,8 @@ const HireOrApply = () => {
                 <FaUser size={50} color="#28a745" />
                 <Card.Title className="mt-3">Want to Apply?</Card.Title>
                 <Card.Text>
-                  Looking for job opportunities? Browse available positions and
-                  apply.
+                  Are you Looking for job opportunities? Browse available
+                  positions. Apply to your jobs here.
                 </Card.Text>
                 <Button variant="success">Browse Jobs</Button>
               </Card.Body>

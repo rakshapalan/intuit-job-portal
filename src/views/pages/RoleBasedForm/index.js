@@ -1,5 +1,4 @@
-import React, { useContext } from "react";
-import { HeaderContext } from "../../../context/headerContext";
+import React from "react";
 import UserProfileForm from "../FreelancerProfile";
 import JobPostingForm from "../EmployeeForm";
 import { useAuth } from "../../../context/authContext";

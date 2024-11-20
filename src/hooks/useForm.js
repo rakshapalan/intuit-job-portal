@@ -8,7 +8,6 @@ const useForm = (initialState, validate) => {
 
   const handleChange = (event) => {
     const { id, value } = event.target;
-    console.log(id, event.target);
     setFormData((prevData) => ({ ...prevData, [id]: value }));
   };
   const handleCheckboxChange = useCallback((event) => {
@@ -44,7 +43,6 @@ const useForm = (initialState, validate) => {
 
   const handleValidation = useCallback(() => {
     const newErrors = validate(formData);
-    console.log("handleSubmit", formData, newErrors);
     setErrors({ ...newErrors });
     return Object.keys(newErrors).length === 0;
   }, [formData, validate]);
@@ -54,7 +52,9 @@ const useForm = (initialState, validate) => {
       event.preventDefault();
       if (handleValidation()) {
         setLoading(true);
-        onSubmit(formData).finally(() => setLoading(false));
+        onSubmit(formData).finally(() => {
+          setLoading(false);
+        });
       }
     },
     [formData, handleValidation]

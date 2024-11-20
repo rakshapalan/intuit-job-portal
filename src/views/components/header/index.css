@@ -5,13 +5,13 @@
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
-    right:200px;
+    right:96px;
     margin: 0;
     opacity: 1;
     pointer-events: all;
     position: relative;
     position: absolute;
-    top: 24px;
+    top: 16px;
     -webkit-transition: opacity 0.1s ease-out;
     transition: opacity 0.1s ease-out;
     -webkit-transition-delay: 0.25s;

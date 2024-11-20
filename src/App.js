@@ -1,5 +1,4 @@
-import { HeaderProvider } from "./context/headerContext";
-// import Header from "./views/components/Header";
+import Header from "./views/components/Header";
 import { BrowserRouter as Router } from "react-router-dom";
 import RoutesRenderer from "./route/routeRender";
 import ErrorBoundary from "./views/components/ErrorBoundary";
@@ -9,28 +8,26 @@ import { Provider } from "react-redux";
 import store from "./store";
 import "./App.css";
 import { AuthProvider } from "./context/authContext";
+import { ThemeProvider, useTheme } from "./context/themeContext";
 
 function App() {
+  const { theme } = useTheme() || {};
   return (
-    <main style={{ paddingTop: "60px", minHeight: "1000px" }}>
+    <main className={`main-container ${theme}`}>
       <ErrorBoundary>
         <Provider store={store}>
           <Router>
             <AuthProvider>
-              {/* <HeaderProvider> */}
-              {/* <Header /> */}
-              <RoutesRenderer />
-              {/* </HeaderProvider> */}
+              <ThemeProvider>
+                <Header />
+                <RoutesRenderer />
+              </ThemeProvider>
             </AuthProvider>
-          </Router>{" "}
+          </Router>
           <ToastContainer />
         </Provider>
       </ErrorBoundary>
     </main>
-
-    // <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-    //   <RouterProvider router={router} />
-    // </ThemeProvider>
   );
 }
 

@@ -31,3 +31,21 @@
 .flex{
   display: flex;
 }
+
+
+body {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body.light .main-container {
+  background-color: #f0f0f0; /* Light theme background */
+  padding-top: 60px;
+  min-height: 1000px;
+
+}
+
+body.dark .main-container {
+  background-color: #121212; /* Dark theme background */
+  padding-top: 60px;
+  min-height: 1000px;
+}

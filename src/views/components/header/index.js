@@ -2,15 +2,15 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./index.css";
 import Logo from "../../../assets/logo.svg";
-import { useHeader } from "../../../context/headerContext";
 import { Button } from "react-bootstrap";
 import { useAuth } from "../../../context/authContext";
+import { useTheme } from "../../../context/themeContext";
+import { header } from "../../../constants/base";
 
 const Header = React.memo(() => {
   const navigate = useNavigate();
-  const { headerHeight, isLoggedIn, getAuth } = useAuth();
-  const header = ["Jobs", "Services", "Companies"];
-  const { logout } = useAuth();
+  const { headerHeight, isLoggedIn, auth, logout } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   return (
     <header
       className="mainHeader"
@@ -22,7 +22,7 @@ const Header = React.memo(() => {
         onClick={() =>
           navigate(
             isLoggedIn
-              ? getAuth?.role === "employer"
+              ? auth?.role === "employer"
                 ? "/employer/jobList"
                 : "/user/jobList"
               : "/"
@@ -40,6 +40,32 @@ const Header = React.memo(() => {
             </li>
           ))}
       </ul>
+      {/* Theme Toggle Switch using Bootstrap */}
+      {isLoggedIn && (
+        <div
+          style={{
+            position: "absolute",
+            top: "50%",
+            right: "440px",
+            transform: "translateY(-50%)", // Center vertically
+          }}
+        >
+          <label className="form-check form-switch">
+            <input
+              className="form-check-input"
+              type="checkbox"
+              checked={theme === "dark"}
+              onChange={toggleTheme}
+            />
+            <span className="form-check-label">
+              {theme === "light"
+                ? "Switch to Dark Mode"
+                : "Switch to Light Mode"}
+            </span>
+          </label>
+        </div>
+      )}
+
       {/* //to show once we have the login token */}
       {isLoggedIn && (
         <Button

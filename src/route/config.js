@@ -4,7 +4,7 @@ const routesConfig = [
   {
     path: "/:role/login",
     component: lazy(() => import("../views/pages/Login")),
-    // Both roles can access this route
+    // Open to all roles
   },
   {
     path: "/",

@@ -4,28 +4,27 @@ import { useNavigate } from "react-router-dom";
 import { Form, Button, Container, Alert, Col, Row } from "react-bootstrap";
 import Subheader from "../../components/Subheader";
 import AutoSuggest from "../../components/AutoSuggest";
-import { toast } from "react-toastify";
 import debounce from "lodash.debounce";
 import { skillOptions, skillList } from "../../../constants/base";
-import { createUser, gitHubValidation } from "../../../api/apiCompanies";
+import { gitHubValidation } from "../../../api/apiCompanies";
 import InputField from "../../components/FormInputField";
 import useForm from "../../../hooks/useForm";
+import { postJobUser } from "../../../actions/jobAction";
 import {
   validateUserProfileForm,
   updateLocalStorageObject,
 } from "../../../utils/validation";
-import { HeaderContext } from "../../../context/headerContext";
 import { useAuth } from "../../../context/authContext";
-
+import { useDispatch, useSelector } from "react-redux";
 const UserProfileForm = () => {
   const [repos, setRepos] = useState([]);
   const [fetching, setFetching] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const { isEmployer } = useAuth();
   const [selectedSkills, setSelectedSkills] = useState([]);
-
+  const dispatch = useDispatch();
   // Handle changes in skill selection
-
+  const { isloading } = useSelector((state) => state);
   const navigate = useNavigate();
 
   const initialState = {
@@ -40,13 +39,8 @@ const UserProfileForm = () => {
 
   const onSubmit = async (formData) => {
     try {
-      const payload = { ...formData, tagsAndSkills: formData.skills };
-      await createUser(formData);
+      dispatch(postJobUser(formData, isEmployer));
       updateLocalStorageObject("auth", { profile: true });
-      toast.success("User profile created successfully", {
-        position: "bottom-right",
-        autoClose: 1000,
-      });
       setTimeout(
         () => navigate(isEmployer ? "/employer/jobList" : "/user/view/profile"),
         1000
@@ -90,7 +84,49 @@ const UserProfileForm = () => {
       fetchGitHubRepos();
     }
   }, 1000);
-  console.log("formData", formData);
+
+  const userComp = [
+    {
+      label: "Name*:",
+      id: "name",
+      type: "text",
+      placeholder: "Enter your name",
+      value: formData.name,
+      error: errors.name,
+    },
+    {
+      label: "Email*:",
+      id: "email",
+      type: "text",
+      placeholder: "Enter your email",
+      value: formData.email,
+      error: errors.email,
+    },
+    {
+      label: "phone*:",
+      id: "phone",
+      type: "number",
+      placeholder: "Enter your number",
+      value: formData.phone,
+      error: errors.phone,
+    },
+    {
+      label: "Current Job Title*:",
+      id: "jobTitle",
+      type: "text",
+      placeholder: "Enter your job title",
+      value: formData.jobTitle,
+      error: errors.jobTitle,
+    },
+    {
+      label: "Project Details:",
+      id: "projectDetail",
+      type: "textarea",
+      placeholder: "Enter your project details",
+      value: formData.projectDetail,
+      error: errors.projectDetail,
+    },
+  ];
   return (
     <>
       <Subheader name="All Jobs" navigateTab="/user/jobList" />
@@ -99,48 +135,7 @@ const UserProfileForm = () => {
           <div className="container mt-5">
             <div className="card shadow-lg p-4 mb-5 bg-white rounded">
               <h3 className="text-center mb-4">Create Freelancing Profile</h3>
-              {[
-                {
-                  label: "Name*:",
-                  id: "name",
-                  type: "text",
-                  placeholder: "Enter your name",
-                  value: formData.name,
-                  error: errors.name,
-                },
-                {
-                  label: "Email*:",
-                  id: "email",
-                  type: "text",
-                  placeholder: "Enter your email",
-                  value: formData.email,
-                  error: errors.email,
-                },
-                {
-                  label: "phone*:",
-                  id: "phone",
-                  type: "number",
-                  placeholder: "Enter your number",
-                  value: formData.phone,
-                  error: errors.phone,
-                },
-                {
-                  label: "Current Job Title*:",
-                  id: "jobTitle",
-                  type: "text",
-                  placeholder: "Enter your job title",
-                  value: formData.jobTitle,
-                  error: errors.jobTitle,
-                },
-                {
-                  label: "Project Details:",
-                  id: "projectDetail",
-                  type: "textarea",
-                  placeholder: "Enter your project details",
-                  value: formData.projectDetail,
-                  error: errors.projectDetail,
-                },
-              ].map((field) => (
+              {userComp.map((field) => (
                 <InputField
                   key={field?.id}
                   id={field?.id}
@@ -162,19 +157,6 @@ const UserProfileForm = () => {
                         handleSkillChange={handleSkillChange}
                         id="tagsAndSkills"
                       />
-                      {/* {skillOptions?.map((skill) => (
-                        <Form.Check
-                          key={skill}
-                          type="checkbox"
-                          value={skill}
-                          className="ps-5"
-                          label={skill}
-                          onChange={handleCheckboxChange}
-                          checked={formData?.tagsAndSkills?.includes(skill)}
-                          name="tagsAndSkills"
-                          id="tagsAndSkills"
-                        />
-                      ))} */}
                     </div>
                     {errors.tagsAndSkills && (
                       <Alert className="mt-4" variant="danger">
@@ -187,7 +169,7 @@ const UserProfileForm = () => {
 
               {/* GitHub Profile Input */}
               <InputField
-                label="GitHub Username*:"
+                label="GitHub Username:"
                 type="text"
                 value={formData.gitHubUsername}
                 placeholder="Enter your GitHub username"
@@ -236,9 +218,9 @@ const UserProfileForm = () => {
                 className=""
                 type="submit"
                 variant="primary"
-                disabled={loading}
+                disabled={isloading}
               >
-                {loading ? "Loading..." : "Submit"}
+                {isloading ? "Loading..." : "Submit"}
               </Button>
             </div>
           </div>

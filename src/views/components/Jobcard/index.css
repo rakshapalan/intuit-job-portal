@@ -14,6 +14,7 @@
   .detail-item {
     margin-right: 15px;
     margin-bottom: 10px;
+    max-width: 100%;
   }
   
   .detail-item .icon {
@@ -45,4 +46,27 @@
     font-size: 16px;
   }
   
+  
+  .compImg {
+    object-fit: cover;
+    border: 1px solid #ddd;
+    padding: 2px;
+  }
+  .job-card {
+    border-radius: 10px;
+    transition: box-shadow 0.3s ease-in-out;
+  }
+  .job-card:hover {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  .custom-badge {
+    background-color: #d3d3d3; /* Light Gray */
+    padding: 0.4rem 0.8rem; /* Increased padding for higher badge */
+    font-size: 0.875rem; /* Optional: Adjust font size */
+    border-radius: 1rem; /* Optional: Make the badge corners rounded */
+    color: black;
+    opacity: 0.4;
+  }
+
   

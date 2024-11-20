@@ -1,23 +1,22 @@
 // JobPostingForm.js
-import React, { useContext } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
-import { createJob } from "../../../api/apiCompanies";
-import { toast } from "react-toastify";
 import { skillList } from "../../../constants/base";
 import AutoSuggest from "../../components/AutoSuggest";
 import { useDispatch, useSelector } from "react-redux";
 import Subheader from "../../components/Subheader";
 import InputField from "../../components/InputField";
-import { Form, Button, Container, Alert, Col, Row } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 import useForm from "../../../hooks/useForm";
 import { validateJobForm } from "../../../utils/validation";
-import { postJob } from "../../../actions/jobAction";
-import { HeaderContext } from "../../../context/headerContext";
+import { postJobUser } from "../../../actions/jobAction";
 import { useAuth } from "../../../context/authContext";
 const JobPostingForm = () => {
   const { isEmployer } = useAuth();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { isloading } = useSelector((state) => state);
+
   const navigateList = () =>
     navigate(isEmployer ? "/employer/jobList" : "/user/jobList");
   const initialState = {
@@ -31,7 +30,6 @@ const JobPostingForm = () => {
   const {
     formData,
     errors,
-    loading,
     handleChange,
     handleFileChange,
     handleSkillChange,
@@ -40,14 +38,10 @@ const JobPostingForm = () => {
 
   const onSubmit = async (formData) => {
     try {
-      await createJob(formData);
-      toast.success("Job created successfully", {
-        position: "bottom-right",
-        autoClose: 1000,
-      });
+      dispatch(postJobUser(formData, isEmployer));
       setTimeout(() => {
         navigateList();
-      }, 1000);
+      }, 2000);
     } catch (err) {
       console.error("Error creating job:", err);
     }
@@ -87,6 +81,9 @@ const JobPostingForm = () => {
       error: errors.jobDescriptionFile,
       onChange: handleFileChange,
     },
+  ];
+
+  const companyFields = [
     {
       label: "Company Name*",
       id: "companyName",
@@ -104,7 +101,7 @@ const JobPostingForm = () => {
       error: errors.contactInfo,
     },
   ];
-  console.log(formData);
+
   return (
     <>
       <Subheader name={"All Jobs"} navigateTab={"/employer/joblist"} />
@@ -112,7 +109,7 @@ const JobPostingForm = () => {
         <div className="container mt-5">
           <div className="card shadow-lg p-4 mb-5 bg-white rounded">
             <h5 className="text-left text-primary mb-4">Basic Job Details</h5>
-            {fields.slice(0, 4)?.map((field, index) => (
+            {fields?.map((field) => (
               <>
                 {field?.id != "tagsAndSkills" && (
                   <InputField
@@ -148,7 +145,7 @@ const JobPostingForm = () => {
         <div className="container mt-5">
           <div className="card shadow-lg p-4 mb-4 bg-white rounded">
             <h5 className="text-left text-primary mb-4">About Your Company</h5>
-            {fields?.slice(4)?.map((field, index) => (
+            {companyFields?.map((field, index) => (
               <InputField
                 key={index + 4}
                 id={field?.id}
@@ -158,8 +155,12 @@ const JobPostingForm = () => {
               />
             ))}
           </div>
-          <button type="submit" className="btn btn-primary" disabled={loading}>
-            {loading ? "Loading..." : "Submit"}
+          <button
+            type="submit"
+            className="btn btn-primary"
+            disabled={isloading}
+          >
+            {isloading ? "Loading..." : "Submit"}
           </button>
         </div>
       </Form>

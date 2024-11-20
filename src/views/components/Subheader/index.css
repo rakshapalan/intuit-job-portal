@@ -36,4 +36,11 @@ text-align: center;
     position: sticky;
     top:24px;
     z-index: 100;
+    overflow: hidden;
 }
+@media (max-width: 576px) {
+    .secondaryBtn, .submitBtn {
+      width: 100%;
+      margin-bottom: 10px; /* Add some space between the buttons on smaller screens */
+    }
+  }

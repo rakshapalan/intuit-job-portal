@@ -1,6 +1,4 @@
-import React, { useContext } from "react";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import React from "react";
 import {
   Container,
   Card,
@@ -12,11 +10,9 @@ import {
 } from "react-bootstrap";
 import useForm from "../../../hooks/useForm";
 import { validateLoginForm } from "../../../utils/validation";
-import { HeaderContext } from "../../../context/headerContext";
 import { useAuth } from "../../../context/authContext";
 
 const LoginPage = () => {
-  const navigate = useNavigate();
   const initialState = {
     username: "",
     password: "",
@@ -84,23 +80,23 @@ const LoginPage = () => {
                   isInvalid={!!errors.password}
                   className="mb-3"
                 />
-                <Form.Control.Feedback type="invalid">
+                <Form.Control.Feedback type="invalid" className="">
                   {errors.password}
                 </Form.Control.Feedback>
               </Form.Group>
 
               {/* Error Message */}
-              {errors.username || errors.password ? (
+              {/* {errors.username || errors.password ? (
                 <Alert variant="danger" className="mt-3">
                   Please fill in all required fields.
                 </Alert>
-              ) : null}
+              ) : null} */}
 
               {/* Login Button */}
               <Button
                 variant="primary"
                 type="submit"
-                className="w-100 py-2"
+                className="w-100 py-2 mt-3"
                 disabled={loading}
                 style={{
                   backgroundColor: "#007bff",

@@ -51,8 +51,3 @@ export const gitHubValidation = (gitHubUsername) => {
   const response = apiGetHelper(URL);
   return response;
 };
-//   export const getAttributeByRule = (teamId, jobType) => {
-//     const URL = `${DOMAIN}`
-//     const response = apiGetHelper(URL)
-//     return response
-//   }
