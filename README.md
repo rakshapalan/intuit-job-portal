@@ -1,70 +1,71 @@
 # Freelance/Employee Portal
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## Introduction
 
-In the project directory, you can run:
+### FreeLancer Section:
+ * User Profile:
+ * User should be able to select skills matching to his profile,Should be able to add his Git profile, and list his projects,Basic Form Validations
+ * Job Listing Page:
+ * Should be able to see all posted jobs,Should be able to filter by skill set/ min. salary per hour,Quick-Apply to a job with a single click.
 
-### `npm start`
+### Employer section:
+ - Allowing new jobs to be posted that:
+ - Displays a form collecting the following data points:
+ - Job description document with maximum length of 16KB,Job requirements,Tags relevant to the job,Company Name and contact info of the job poster,View his jobs posted.
+ - Displays the number of applications on that job,Ability to see the user profile of the job applicant.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### `Presentation Deck`
 
-### `npm test`
+View the presentation behind the implementation of this project: [presentation](https://docs.google.com/presentation/d/1Q9nQB__J8Ijdy8CHjEa0z6h1S4U0sZEhmdkx-btY76Y/edit#slide=id.g314b90c602b_0_452)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+### `Technologies Used`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- React JS
+- Javascript
+- Create React App scaffolding
+- Bootstrap
+- React Router Dom
+- State Management ->  React Context API +React Redux
+- React Toastify
+- Axios
+- Github
+- https://mockaroo.com To create mock API
+- React Testing Library
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### `Performance Improvements`
+Pagination:
+ - Reduces rendering time by limiting the data shown per page.Improves initial page load speed by fetching smaller chunks of data.
 
-### `npm run eject`
+Debouncing:
+ - Prevents excessive function calls (e.g., API calls, computations).Delays function execution until user stops input or interaction.
+ - Memoization (useCallback,useMemo): 
+ - Prevents unnecessary re-creations of functions and expensive operations,prevents the execution of function multiple times.Reduces rendering time by memoizing callback functions and 
+ - memoizing the result of functions, improving component performance.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+React.lazy:
+- React.lazy allows you to dynamically import a component only when it’s required. This is useful for code splitting. When you call lazy(), React will load the component only when the -- route is visited, instead of loading everything upfront.
+- React Memo,React fragments
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Reusable components(Button,Form,Spinner,Header,Subheader,Usertable,NotFound,Something went wrong,No search results)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- Reusable Hooks(useForm,usePagination)
+- Reusable Functions(formValidation,apiHelper,loginValidation,localstorage actions)
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- ErrorBoundary(To capture error and displays Something went wrong)
 
-## Learn More
+- NotFound(404 When user tries to hit the wrong route)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Run Application
+- Clone the repository
+- Run npm install to install required dependencies
+- Finally, run npm start to run the application and open the browser to view the site on localhost.
+- Use Node JS version 20.17.0 to run the application on local
 
-To learn React, check out the [React documentation](https://reactjs.org/).
 
-### Code Splitting
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-### Analyzing the Bundle Size
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
